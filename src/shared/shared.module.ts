@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PipesModule } from './pipes/pipes.module';
-// import { CollectionsService } from '../services/firebase/collections.service';
-
+import { CollectionsService } from './firebase/collections.service';
 
 
 @Module({
@@ -9,10 +8,10 @@ import { PipesModule } from './pipes/pipes.module';
         PipesModule,
     ],
     providers: [
-        // CollectionsService
+        CollectionsService
     ],
     exports: [
-        // CollectionsService,
+        CollectionsService,
         PipesModule,
     ],
 })

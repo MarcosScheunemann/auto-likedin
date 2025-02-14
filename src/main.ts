@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { ExceptionsFilter } from './filters/exceptions.filter';
+import { ExceptionsFilter } from './shared/filters/exceptions.filter';
 import { SanitizePipe } from './shared/pipes/sanitize.pipe';
 
 let app: INestApplication;
