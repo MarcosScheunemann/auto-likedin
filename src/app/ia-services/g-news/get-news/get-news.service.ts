@@ -58,6 +58,7 @@ export class GetNewsService {
         {
           params: {
             category: 'technology',
+            lang: 'en',
             q: topic || 'artificial intelligence',
             sortby: 'publishedAt',
             apikey: this.gnewsApiKey,

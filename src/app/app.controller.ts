@@ -10,7 +10,9 @@ export class AppController {
   ) {}
   @Get()
   async gete() {
-    return await this.getNewsService.execute();
+    // TODO: Remover TESTE
+    console.log('GET /')
+    return await this.getNewsService.execute('Tesla');
   }
   @Get('oi')
   getHello(): string {
