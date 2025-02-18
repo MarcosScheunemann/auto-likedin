@@ -12,7 +12,7 @@ import {
   IGNewsResponse,
   IGNewsResponseArticles,
 } from 'scheunemann-interfaces';
-import { ScrapingService } from '../scrapping/scrapping.service';
+import { ScrapingService } from '../scraping/scraping.service';
 
 @Injectable()
 export class GetNewsService {
@@ -22,18 +22,19 @@ export class GetNewsService {
 
   async execute(topic: string | null = null): Promise<IEnvelope<string>> {
     const sources = await this.sourceSearch(topic);
-    const scraping = sources.items.map(async (news) => {
-      const context = await this.scrapingService.execute(news.url);
-      if (context) {
-        news.description = context;
-        return news;
+    let contents = [];
+    for (let news of sources.items) {
+      let content = '';
+      try {
+        content = await this.scrapingService.execute(news.url);
+      } catch (error) {}
+      if (content) {
+        news.description = content;
+        contents.push(news);
       }
-      return null;
-    });
-    const results = await Promise.all(scraping);
-    const validResults = results.filter((news) => news !== null);
+    }
 
-    return factoryEnvelope(this.factoryNews(validResults));
+    return factoryEnvelope(this.factoryNews(contents));
   }
   /**
    * Este método busca 10 notícias mais recentes sobre tecnologia ou um tópico específico, dos últimos 60 dias.

@@ -2,10 +2,10 @@
 // src/news/news.module.ts
 
 import { Module } from '@nestjs/common';
-import { ScrapingService } from './scrapping.service';
+import { ScrapingService } from './scraping.service';
 
 @Module({
   providers: [ScrapingService],
   exports: [ScrapingService],
 })
-export class ScrappingModule {}
+export class ScrapingModule {}
