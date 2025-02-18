@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { GetNewsModule } from './get-news/get-news.module';
+import { ScrappingModule } from './scrapping/scrapping.module';
 @Module({
-  imports: [GetNewsModule],
+  imports: [GetNewsModule, ScrappingModule],
   providers: [],
-  exports: [GetNewsModule],
+  exports: [GetNewsModule, ScrappingModule],
 })
 export class GNewsModule {}

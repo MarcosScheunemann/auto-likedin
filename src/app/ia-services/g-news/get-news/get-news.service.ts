@@ -1,10 +1,10 @@
 import {
   Injectable,
-  Get,
   BadRequestException,
   UnauthorizedException,
 } from '@nestjs/common';
 import axios from 'axios';
+import { factoryEnvelope, IEnvelope, IGNewsResponse, IGNewsResponseArticles } from 'scheunemann-interfaces';
 
 @Injectable()
 export class GetNewsService {
@@ -16,7 +16,7 @@ export class GetNewsService {
    * @param topic
    * @returns
    */
-  async execute(topic: string | null = null) {
+  async execute(topic: string | null = null): Promise<IEnvelope<IGNewsResponseArticles[]>> {
     if (!this.gnewsApiKey) {
       throw new UnauthorizedException(
         'G_NEWS_API_KEY não configurada. [ER100]',
@@ -26,7 +26,7 @@ export class GetNewsService {
       const today = new Date();
       const pastDate = new Date();
       pastDate.setDate(today.getDate() - 60);
-      const newsResponse = await axios.get<GNewsResponse>(
+      const newsResponse = await axios.get<IGNewsResponse>(
         'https://gnews.io/api/v4/search',
         {
           params: {
@@ -44,12 +44,12 @@ export class GetNewsService {
       if (!articles.length) {
         throw new BadRequestException('Nenhuma notícia encontrada. [ER101]');
       }
-      return this.factoryNews(newsResponse.data);
+      return factoryEnvelope(articles);
     } catch (error) {
       throw new BadRequestException('Erro ao buscar notícias. [ER102]');
     }
   }
-  factoryNews(news: GNewsResponse): string {
+  private factoryNews(news: IGNewsResponse): string {
     const noticiasTexto = news.articles
       .map(
         (noticia, index) =>
@@ -64,20 +64,4 @@ export class GetNewsService {
 
     return `Aqui estão algumas notícias recentes:\n\n${noticiasTexto}`;
   }
-}
-
-interface GNewsResponse {
-  articles: {
-    title: string;
-    description: string;
-    content: string;
-    url: string;
-    image: string;
-    publishedAt: string;
-    source: {
-      name: string;
-      url: string;
-    };
-  }[];
-  totalArticles: number;
 }
