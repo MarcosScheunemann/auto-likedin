@@ -4,19 +4,45 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import axios from 'axios';
-import { factoryEnvelope, IEnvelope, IGNewsResponse, IGNewsResponseArticles } from 'scheunemann-interfaces';
+import {
+  factoryEnvelope,
+  factoryEnvelopeArray,
+  IEnvelope,
+  IEnvelopeArray,
+  IGNewsResponse,
+  IGNewsResponseArticles,
+} from 'scheunemann-interfaces';
+import { ScrapingService } from '../scrapping/scrapping.service';
 
 @Injectable()
 export class GetNewsService {
   private gnewsApiKey = process.env.G_NEWS_API_KEY;
 
-  constructor() {}
+  constructor(private readonly scrapingService: ScrapingService) {}
+
+  async execute(topic: string | null = null): Promise<IEnvelope<string>> {
+    const sources = await this.sourceSearch(topic);
+    const scraping = sources.items.map(async (news) => {
+      const context = await this.scrapingService.execute(news.url);
+      if (context) {
+        news.description = context;
+        return news;
+      }
+      return null;
+    });
+    const results = await Promise.all(scraping);
+    const validResults = results.filter((news) => news !== null);
+
+    return factoryEnvelope(this.factoryNews(validResults));
+  }
   /**
    * Este método busca 10 notícias mais recentes sobre tecnologia ou um tópico específico, dos últimos 60 dias.
    * @param topic
    * @returns
    */
-  async execute(topic: string | null = null): Promise<IEnvelope<IGNewsResponseArticles[]>> {
+  async sourceSearch(
+    topic: string | null = null,
+  ): Promise<IEnvelopeArray<IGNewsResponseArticles>> {
     if (!this.gnewsApiKey) {
       throw new UnauthorizedException(
         'G_NEWS_API_KEY não configurada. [ER100]',
@@ -44,21 +70,19 @@ export class GetNewsService {
       if (!articles.length) {
         throw new BadRequestException('Nenhuma notícia encontrada. [ER101]');
       }
-      return factoryEnvelope(articles);
+      return factoryEnvelopeArray(articles);
     } catch (error) {
       throw new BadRequestException('Erro ao buscar notícias. [ER102]');
     }
   }
-  private factoryNews(news: IGNewsResponse): string {
-    const noticiasTexto = news.articles
+  private factoryNews(news: IGNewsResponseArticles[]): string {
+    const noticiasTexto = news
       .map(
         (noticia, index) =>
           `${index + 1}. **${noticia.title}**\n\n` +
           `Publicado em: ${new Date(noticia.publishedAt).toLocaleString('pt-BR', { timeZone: 'UTC' })}\n` +
           `Fonte: ${noticia.source.name} (${noticia.source.url})\n` +
-          `Link: ${noticia.url}\n` +
-          `Descrição: ${noticia.description || 'Descrição não disponível.'}\n` +
-          `Conteúdo: ${noticia.content ? noticia.content.replace(/\[.*?\]/g, '') : 'Conteúdo não disponível.'}`,
+          `Descrição: ${noticia.description}\n`,
       )
       .join('\n\n');
 
