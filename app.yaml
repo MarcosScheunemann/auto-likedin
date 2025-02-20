@@ -13,4 +13,5 @@
 #
 # [START runtime]
 runtime: nodejs22
+service: default
 # [END runtime]

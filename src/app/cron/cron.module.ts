@@ -6,7 +6,7 @@ import { CronService } from './cron.service';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
-    LinkedInModule, // vamos precisar do LinkedInService
+    LinkedInModule, 
   ],
   providers: [CronService],
 })
