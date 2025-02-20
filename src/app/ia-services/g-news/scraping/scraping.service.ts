@@ -8,7 +8,14 @@ export class ScrapingService {
     if (!this.browser) {
       this.browser = await puppeteer.launch({
         headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-gpu',
+          '--disable-dev-shm-usage',
+          '--disable-software-rasterizer',
+          '--disable-features=site-per-process',
+        ],
       });
     }
     return this.browser;
@@ -26,29 +33,38 @@ export class ScrapingService {
     try {
       const browser = await this.getBrowser();
       page = await browser.newPage();
+      await page.setViewport({ width: 1366, height: 768 });
       await page.setUserAgent(
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       );
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
       try {
+        await page.mouse.move(100, 200);
+        await page.mouse.down();
+        await page.mouse.up();
         await page.waitForSelector(
-          'article, .post-content, .news-body, .entry-content, .page-content, .sdc-article-body--story, .entry-main-content, .mainArea, .art-content',
+          'article, .post-content, .news-body, .entry-content, .page-content, .sdc-article-body--story, .entry-main-content, .mainArea, .art-content, .story_details, .group, .RichTextStoryBody, .cwnrYD',
           { timeout: 60000 },
         );
       } catch (error) {
+        console.error(`url ==> ${url}`);
         console.error('Não encontrou nenhum seletor esperado:', error);
       }
 
       const content = await page.evaluate(() => {
         const paragraphs = Array.from(
           document.querySelectorAll(
-            'article p, .post-content p, .news-body p, .entry-content p, .page-content p, .sdc-article-body--story p, .entry-main-content p, .mainArea p, .art-content p',
+            'article p, .post-content p, .news-body p, .entry-content p, .page-content p, .sdc-article-body--story p, .entry-main-content p, .mainArea p, .art-content p, .story_details p, .group p, .RichTextStoryBody p, .cwnrYD p',
           ),
         );
-        return paragraphs.map((p) => p.textContent?.trim() || '');
+        return paragraphs
+          .filter((p) => !p.querySelector('script'))
+          .map((p) => p.textContent?.trim() || '')
+          .filter((text) => text.length > 0);
       });
 
-      return this.filterContent(content);
+      const contentfiltered = this.filterContent(content);
+      return contentfiltered;
     } catch (error: any) {
       throw new BadRequestException(
         `[ER103] Erro ao realizar scraping: ${error.message}`,
@@ -70,6 +86,16 @@ export class ScrapingService {
       'Open Settings >',
       'logout',
       'login',
+      'the 7NEWS app:',
+      'and score a great deal',
+      'Also read:',
+      'cookies',
+      'rights reserved',
+      'Email her at',
+      'Follow her on',
+      'Email him at',
+      'Follow him on',
+      'Sign up for',
 
       'This is a modal window',
       'Beginning of dialog window',
