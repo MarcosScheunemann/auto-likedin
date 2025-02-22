@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import axios from 'axios';
-import { ChatCompletionMessageParam } from 'openai/resources';
 import { EChatGptModel, EChatGptRole } from 'scheunemann-interfaces';
 
 @Injectable()
@@ -8,16 +7,22 @@ export class GptService {
   constructor() {}
   public async execute(noticias: string[] | null) {
     if (!noticias) {
-        throw new BadRequestException('Sem noticias para tratar!')
+      throw new BadRequestException('Sem noticias para tratar!');
     }
-    const notes: ChatCompletionMessageParam[] = noticias.map(
-      (noticia, index) => ({
-        name: 'Marcos',
-        role: EChatGptRole.USER,
-        content: `Notícia ${index + 1}: ${noticia}`,
-      }),
-    );
-    const messages: ChatCompletionMessageParam[] = [
+    const notes: {
+      name?: string;
+      role: EChatGptRole;
+      content: string;
+    }[] = noticias.map((noticia, index) => ({
+      name: 'Marcos',
+      role: EChatGptRole.USER,
+      content: `Notícia ${index + 1}: ${noticia}`,
+    }));
+    const messages: {
+      name?: string;
+      role: EChatGptRole;
+      content: string;
+    }[] = [
       {
         role: EChatGptRole.SYSTEM,
         content: `Você é um especialista em tecnologia e jornalismo. Sua tarefa é analisar um conjunto de notícias sobre tecnologia 
