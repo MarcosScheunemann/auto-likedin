@@ -6,16 +6,10 @@ import { GetNewsService } from './ia-services/g-news/get-news/get-news.service';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly getNewsService: GetNewsService,
   ) {}
+
   @Get()
-  async gete() {
-    // TODO: Remover TESTE
-    console.log('GET /')
-    return await this.getNewsService.execute('Tesla');
-  }
-  @Get('oi')
-  getHello(): string {
-    return this.appService.getHello();
+  getHello() {
+    return this.appService.oneforAll();
   }
 }
