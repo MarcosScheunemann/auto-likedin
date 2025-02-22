@@ -20,7 +20,7 @@ export class GetNewsService {
 
   constructor(private readonly scrapingService: ScrapingService) {}
 
-  async execute(topic: string | null = null): Promise<IEnvelope<string>> {
+  async execute(topic: string | null = null): Promise<IEnvelope<string[]>> {
     const sources = await this.sourceSearch(topic);
     let contents = [];
     for (let news of sources.items) {
@@ -77,17 +77,16 @@ export class GetNewsService {
       throw new BadRequestException('Erro ao buscar notícias. [ER102]');
     }
   }
-  private factoryNews(news: IGNewsResponseArticles[]): string {
-    const noticiasTexto = news
-      .map(
-        (noticia, index) =>
-          `${index + 1}. **${noticia.title}**\n\n` +
-          `Publicado em: ${new Date(noticia.publishedAt).toLocaleString('pt-BR', { timeZone: 'UTC' })}\n` +
-          `Fonte: ${noticia.source.name} (${noticia.source.url})\n` +
-          `Descrição: ${noticia.description}\n`,
-      )
-      .join('\n\n');
+  private factoryNews(news: IGNewsResponseArticles[]): string[] {
+    const noticiasTexto = news.map(
+      (noticia, index) =>
+        `${index + 1}. **${noticia.title}**\n\n` +
+        `Publicado em: ${new Date(noticia.publishedAt).toLocaleString('pt-BR', { timeZone: 'UTC' })}\n` +
+        `Fonte: ${noticia.source.name} (${noticia.source.url})\n` +
+        `Descrição: ${noticia.description}\n`,
+    );
+    // .join('\n\n');
 
-    return `Aqui estão algumas notícias recentes:\n\n${noticiasTexto}`;
+    return noticiasTexto;
   }
 }
