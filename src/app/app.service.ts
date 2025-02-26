@@ -13,14 +13,17 @@ export class AppService {
     private readonly linkedInService: LinkedInService,
   ) {}
   async oneforAll(code?: string) {
-    const canPass = await this.linkedInService.canPass(code);
+    // const canPass = await this.linkedInService.canPass(code);
+    const canPass = true
     if (!canPass) {
       return;
     }
-    // const topic = this.getTopicService.execute();
+    console.log('Passo 1 = get topic')
+    const topic = this.getTopicService.execute();
     // const news = await this.getNewsService.execute(topic);
+    // console.log('Passo 2 = get gpt')
     // const gptRes = await this.gptService.execute(news.item)
     const gptRes = 'Uma postagem automática aqui';
-    return 'Uma postagem automática aqui'
+    return topic
   }
 }

@@ -23,9 +23,7 @@ export class LinkedInService {
     if (!LinkedInService.hasAlreadyExecuted && isAutenticated) {
       canPass = true;
       LinkedInService.hasAlreadyExecuted = true;
-      setTimeout(() => {
-        LinkedInService.hasAlreadyExecuted = false;
-      }, 50000);
+      setTimeout(() => {LinkedInService.hasAlreadyExecuted = false}, 50000);
     }
     return canPass;
   }
