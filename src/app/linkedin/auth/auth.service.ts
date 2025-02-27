@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 @Injectable()
 export class LinkedInAuthService {
-  private accessToken: string;
+  public accessToken: string;
   private refreshToken: string;
   private clientId: string;
   private clientSecret: string;
@@ -40,10 +40,28 @@ export class LinkedInAuthService {
     this.isAuthenticating = true;
     try {
       // Permissão para postar no perfil pessoal
-      const scope = 'w_member_social';
+      const scopeList = [
+        'email',
+        'openid',
+        'profile',
+        'r_1st_connections_size',
+        'r_ads',
+        'r_ads_reporting',
+        'r_basicprofile',
+        'r_events',
+        'r_organization_admin',
+        'r_organization_social',
+        'rw_ads',
+        'rw_events',
+        'rw_organization_admin',
+        'w_member_social',
+        'w_organization_social',
+      ];
+      const scope = encodeURIComponent(scopeList.join(' '));
+
       const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${this.clientId}&redirect_uri=${encodeURIComponent(
         this.redirectUri,
-      )}&state=qualquercoisa&scope=${encodeURIComponent('openid profile email ' + scope)}`;
+      )}&state=qualquercoisa&scope=${scope}`;
 
       await open(authUrl);
       throw new BadRequestException(
@@ -54,7 +72,7 @@ export class LinkedInAuthService {
     }
   }
 
-  public async fetchAccessToken(code: string): Promise<any> {
+  private async fetchAccessToken(code: string): Promise<any> {
     try {
       const response = await axios.post(
         'https://www.linkedin.com/oauth/v2/accessToken',
@@ -137,7 +155,7 @@ export class LinkedInAuthService {
       throw error;
     }
   }
-  public async ensureAuthenticated() {
+  private async ensureAuthenticated() {
     if (this.isTokenExpired()) {
       const refreshed = await this.refreshAccessToken();
       if (!refreshed) {
@@ -152,11 +170,14 @@ export class LinkedInAuthService {
     return true;
   }
 
-  private isTokenExpired(): boolean {
-    return Date.now() >= this.expiresAt;
+  public isTokenExpired(): boolean {
+    if (!this.expiresAt){
+      return true
+    }
+    return Date.now() >= this.expiresAt; 
   }
 
-  private updateEnvFile(updatedValues: Record<string, string>): void {
+  public updateEnvFile(updatedValues: Record<string, string>): void {
     const envPath = '.env';
 
     let envContent = fs.existsSync(envPath)
