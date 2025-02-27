@@ -20,7 +20,7 @@ export class GetNewsService {
 
   constructor(private readonly scrapingService: ScrapingService) {}
 
-  async execute(topic: string | null = null): Promise<IEnvelope<string[]>> {
+  async execute(topic: string | null = null): Promise<IEnvelopeArray<string>> {
     const sources = await this.sourceSearch(topic);
     let contents = [];
     for (let news of sources.items) {
@@ -34,7 +34,7 @@ export class GetNewsService {
       }
     }
 
-    return factoryEnvelope(this.factoryNews(contents));
+    return factoryEnvelopeArray(this.factoryNews(contents));
   }
   /**
    * Este método busca 10 notícias mais recentes sobre tecnologia ou um tópico específico, dos últimos 60 dias.
