@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-
+import { GptService } from './gpt.service';
 
 @Module({
   controllers: [],
-  providers: [],
+  providers: [GptService],
+  exports: [GptService],
 })
 export class GptModule {}

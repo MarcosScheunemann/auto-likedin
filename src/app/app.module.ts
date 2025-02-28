@@ -6,11 +6,13 @@ import { FirebaseModule } from '../shared/firebase/firebase.module';
 import { CronModule } from './cron/cron.module';
 import { LinkedInModule } from './linkedin/linkedin.module';
 import { IaServicesModule } from './ia-services/ia-services.module';
+import { GetTopicModule } from './topics/topics.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     FirebaseModule,
+    GetTopicModule,
     CronModule,
     LinkedInModule,
     IaServicesModule,
