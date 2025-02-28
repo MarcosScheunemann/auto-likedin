@@ -1,0 +1,36 @@
+name: Build
+
+on:
+    push:
+        branches:
+            - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Criar arquivo .env a partir dos secrets do GitHub
+        run: |
+          echo "STORAGE_BUCKET=${{ secrets.STORAGE_BUCKET }}" >> .env
+          echo "FIREBASE_SERVICE_ACCOUNT=${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "LINKEDIN_CLIENT_ID=${{ secrets.LINKEDIN_CLIENT_ID }}" >> .env
+          echo "LINKEDIN_CLIENT_SECRET=${{ secrets.LINKEDIN_CLIENT_SECRET }}" >> .env
+          echo "LINKEDIN_REDIRECT_URI=${{ secrets.LINKEDIN_REDIRECT_URI }}" >> .env
+          echo "G_NEWS_API_KEY=${{ secrets.G_NEWS_API_KEY }}" >> .env
+          echo "PORT=${{ secrets.PORT }}" >> .env
+
+      - name: Verificar se o .env foi criado
+        run: ls -lah .env
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Build do projeto
+        run: npm run build
+
+      - name: Deploy para o Google Cloud App Engine
+        run: gcloud app deploy app.yaml --project ${{ secrets.PROJECT_ID }}
