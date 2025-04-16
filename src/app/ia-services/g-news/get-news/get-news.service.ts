@@ -85,8 +85,6 @@ export class GetNewsService {
         `Fonte: ${noticia.source.name} (${noticia.source.url})\n` +
         `Descrição: ${noticia.description}\n`,
     );
-    // .join('\n\n');
-
     return noticiasTexto;
   }
 }

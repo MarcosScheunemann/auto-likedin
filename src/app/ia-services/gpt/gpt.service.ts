@@ -1,19 +1,19 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import axios from 'axios';
-import { EChatGptModel, EChatGptRole } from 'scheunemann-interfaces';
+import { ChatGptResponseEntity, EChatGptModel, EChatGptRole } from 'scheunemann-interfaces';
 
 @Injectable()
 export class GptService {
   constructor() {}
-  public async execute(noticias: string[] | null) {
-    if (!noticias) {
+  public async makeResume(news: string[] | null): Promise<string> {
+    if (!news) {
       throw new BadRequestException('Sem noticias para tratar!');
     }
     const notes: {
       name?: string;
       role: EChatGptRole;
       content: string;
-    }[] = noticias.map((noticia, index) => ({
+    }[] = news.map((noticia, index) => ({
       name: 'Marcos',
       role: EChatGptRole.USER,
       content: `Notícia ${index + 1}: ${noticia}`,
@@ -37,7 +37,7 @@ export class GptService {
           'Agora, escolha a notícia mais relevante e forneça um resumo detalhado.',
       },
     ];
-    const response = await axios.post(
+    const response = await axios.post<ChatGptResponseEntity>(
       'https://api.openai.com/v1/chat/completions',
       { messages, model: EChatGptModel.GPT_4O },
       {
@@ -47,6 +47,6 @@ export class GptService {
         },
       },
     );
-    return response.data;
+    return response.data.choices[0].message.content;
   }
 }
