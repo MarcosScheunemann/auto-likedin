@@ -12,8 +12,8 @@ import { GetTopicModule } from './topics/topics.module';
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     FirebaseModule,
-    GetTopicModule,
     CronModule,
+    GetTopicModule,
     LinkedInModule,
     IaServicesModule,
   ],
