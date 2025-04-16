@@ -7,13 +7,15 @@ import { CronModule } from './cron/cron.module';
 import { LinkedInModule } from './linkedin/linkedin.module';
 import { IaServicesModule } from './ia-services/ia-services.module';
 import { GetTopicModule } from './topics/topics.module';
+import { EnvValidationModule } from '../shared/enviroment/env.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     FirebaseModule,
-    GetTopicModule,
+    EnvValidationModule,
     CronModule,
+    GetTopicModule,
     LinkedInModule,
     IaServicesModule,
   ],
