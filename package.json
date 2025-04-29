@@ -17,6 +17,7 @@
   "devDependencies": {
     "concurrently": "^9.0.0",
     "electron": "^30.5.1",
+    "rxjs": "^7.8.2",
     "wait-on": "^7.0.0"
   }
 }

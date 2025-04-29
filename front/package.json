@@ -2,7 +2,6 @@
   "name": "front",
   "version": "0.0.1",
   "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
   "scripts": {
     "start:dev": "npx ionic serve",
     "start": "npx ng serve",
@@ -28,7 +27,7 @@
     "@capacitor/status-bar": "7.0.1",
     "@ionic/angular": "^8.0.0",
     "ionicons": "^7.0.0",
-    "rxjs": "~7.8.0",
+    "scheunemann-interfaces": "^1.2.36",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
