@@ -26,3 +26,6 @@ jobs:
 
       - name: Build FrontEnd
         run: npm run build:front
+
+      - name: Build FrontEnd
+        run: npm run build:electron

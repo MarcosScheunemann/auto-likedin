@@ -1,20 +1,23 @@
 {
-    "private": true,
-    "workspaces": ["api", "front", "electron"],
-    "scripts": {
-      "start:api": "cd api && nest start --watch",
-      "build:api": "cd api && npm run build",
-      "start:api:dev": "cd api && npm run start:dev",
-      "start:front": "cd front && ionic serve --port 4200 --no-open",
-      "build:front": "cd front && npm run build:ionic",
-      "start:electron": "wait-on tcp:4200 && electron electron",
-      "build:electron": "cd electron && npm run build",
-      "dev": "concurrently -k -n API,WEB,ELEC -c cyan,green,magenta \"npm run start:api\" \"npm run start:front\" \"npm run start:electron\""
-    },
-    "devDependencies": {
-      "concurrently": "^9.0.0",
-      "wait-on": "^7.0.0",
-      "electron": "^30.0.0"
-    }
+  "private": true,
+  "workspaces": [
+    "api",
+    "front",
+    "electron"
+  ],
+  "scripts": {
+    "start:api": "cd api && nest start --watch",
+    "build:api": "cd api && npm run build",
+    "start:api:dev": "cd api && npm run start:dev",
+    "start:front": "cd front && ionic serve --port 8100 --no-open",
+    "build:front": "cd front && npm run build:ionic",
+    "start:electron": "wait-on http://localhost:8100 && tsc -p electron && electron electron/dist/main.js",
+    "build:electron": "npx tsc -p electron",
+    "dev": "concurrently -k -n API,WEB,ELEC -c cyan,green,magenta \"npm run start:api\" \"npm run start:front\" \"npm run start:electron\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "electron": "^30.5.1",
+    "wait-on": "^7.0.0"
   }
-  
+}
