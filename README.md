@@ -37,8 +37,8 @@ NodeJS, NestJS, Typescrypt, Python, Firebase(Google Cloud).
 
 ## Primeiros passos
 
-npm i
-npm start
+npm install  
+npm run dev  
 
 ## Para Develop
 
