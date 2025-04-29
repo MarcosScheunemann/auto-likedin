@@ -95,7 +95,7 @@ export class GptService {
           },
         },
       );
-      return response.data.choices[0].message.content;
+      return response.data.choices[0].message.content.replace(/[^a-zA-Z0-9\s!]/g, '');
     } catch (error: any) {
       throw new HttpException(
         error.response?.data || error.message,
