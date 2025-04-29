@@ -1,5 +1,5 @@
 {
   "name": "front",
   "integrations": {},
-  "type": "angular-standalone"
+  "type": "angular"
 }
