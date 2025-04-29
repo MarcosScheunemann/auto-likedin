@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm install --force
 
-      - name: Build project
+      - name: Build BackEnd
         run: npm run build:api
 
-      - name: Build project
+      - name: Build FrontEnd
         run: npm run build:front
