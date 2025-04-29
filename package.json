@@ -9,7 +9,7 @@
       "build:front": "cd front && npm run build:ionic",
       "start:electron": "wait-on tcp:4200 && electron electron",
       "build:electron": "cd electron && npm run build",
-      "dev": "concurrently -k -n API,WEB,ELEC -c cyan,green,magenta \"npm run start:api\" \"npm run start:front\" \"npm run start:electron\"",
+      "dev": "concurrently -k -n API,WEB,ELEC -c cyan,green,magenta \"npm run start:api\" \"npm run start:front\" \"npm run start:electron\""
     },
     "devDependencies": {
       "concurrently": "^9.0.0",
