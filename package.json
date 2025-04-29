@@ -3,6 +3,7 @@
     "workspaces": ["api", "front", "electron"],
     "scripts": {
       "start:api": "cd api && nest start --watch",
+      "start:api:dev": "cd api && npm run start:dev",
       "start:front": "cd front && ionic serve --port 4200 --no-open",
       "start:electron": "wait-on tcp:4200 && electron electron",
       "dev": "concurrently -k -n API,WEB,ELEC -c cyan,green,magenta \"npm run start:api\" \"npm run start:front\" \"npm run start:electron\"" 
