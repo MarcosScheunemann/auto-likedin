@@ -3,10 +3,14 @@
     "workspaces": ["api", "front", "electron"],
     "scripts": {
       "start:api": "cd api && nest start --watch",
+      "build:api": "cd api && npm run build",
       "start:api:dev": "cd api && npm run start:dev",
       "start:front": "cd front && ionic serve --port 4200 --no-open",
+      "build:front": "cd front && npm run build:ionic",
       "start:electron": "wait-on tcp:4200 && electron electron",
-      "dev": "concurrently -k -n API,WEB,ELEC -c cyan,green,magenta \"npm run start:api\" \"npm run start:front\" \"npm run start:electron\"" 
+      "build:electron": "cd electron && npm run build",
+      "dev": "concurrently -k -n API,WEB,ELEC -c cyan,green,magenta \"npm run start:api\" \"npm run start:front\" \"npm run start:electron\"",
+      "build": "npm run build:front && npm run build:api"
     },
     "devDependencies": {
       "concurrently": "^9.0.0",
