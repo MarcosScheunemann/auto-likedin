@@ -24,12 +24,14 @@ jobs:
   build-api:
     name: Build do Backend
     runs-on: ubuntu-latest
+    needs: installations
     steps:
       - name: Build project
         run: npm run build:api
   build-front:
     name: Build do Front
     runs-on: ubuntu-latest
+    needs: installations
     steps:
       - name: Build project
         run: npm run build:front
