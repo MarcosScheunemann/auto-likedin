@@ -59,7 +59,7 @@ async function bootstrap() {
   );
 
   // 6. Start Application
-  await app.listen(process?.env['PORT'] || 8081);
-  Logger.log('APi is available at: http://localhost:' + (process?.env['PORT'] || 8081) + '/');
+  await app.listen(8081);
+  Logger.log('APi is available at: http://localhost:' + (8081) + '/');
 }
 bootstrap();

@@ -10,7 +10,6 @@ export class EnvValidationService implements OnModuleInit {
     { key: 'LINKEDIN_REDIRECT_URI', description: 'LinkedIn Redirect URI' },
     { key: 'LINKEDIN_CLIENT_SECRET', description: 'LinkedIn Client Secret' },
     { key: 'G_NEWS_API_KEY', description: 'G-News API Key' },
-    { key: 'PORT', description: 'Application Port' },
     { key: 'OPENAI_API_KEY', description: 'OpenAI API Key' },
   ];
 

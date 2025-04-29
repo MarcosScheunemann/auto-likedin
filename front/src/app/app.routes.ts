@@ -1,13 +1,14 @@
 import { Routes } from '@angular/router';
+import { ERouters } from '../shared/interfaces/enuns/e-routers';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: ERouters.HOME,
+    loadComponent: () => import('./routes/home/home.page').then((m) => m.HomePage),
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: ERouters.HOME,
     pathMatch: 'full',
   },
 ];
