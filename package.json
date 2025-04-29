@@ -14,10 +14,13 @@
     "build:electron": "npx tsc -p electron",
     "dev": "concurrently -k -n API,WEB,ELEC -c cyan,green,magenta \"npm run start:api\" \"npm run start:front\" \"npm run start:electron\""
   },
+  "dependencies": {
+    "rxjs": "^7.8.2",
+    "scheunemann-interfaces": "^1.2.36"
+  },
   "devDependencies": {
     "concurrently": "^9.0.0",
     "electron": "^30.5.1",
-    "rxjs": "^7.8.2",
     "wait-on": "^7.0.0"
   }
 }
