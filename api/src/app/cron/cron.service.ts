@@ -5,17 +5,17 @@ import { EnvService } from '../env/env.service';
 @Injectable()
 export class CronService {
   constructor(
-    private readonly envService:EnvService
-  ) {}
+    private readonly envService: EnvService
+  ) { }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_HOUR)
   async handleCron() {
-    console.log('[Cron] Verificando status com linkedin...');
+    console.log('[Cron] Verificando status...');
     try {
       await this.envService.getCredentials(this.envService.getToken())
       console.log('[Cron] Status Verificado com sucesso.');
     } catch (err) {
-      console.error('[Cron] Erro ao processar postagens:', err);
+      console.error('[Cron] Erro ao processar status:', err);
     }
   }
 }

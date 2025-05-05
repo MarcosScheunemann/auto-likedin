@@ -40,7 +40,7 @@ export class EnvService {
                         'x-token': token
                     }
                 })
-                let envs = {
+                envs = {
                     TOKEN: response.data.token || '',
                     LINKEDIN_CLIENT_ID: response.data.clientId || '',
                     LINKEDIN_REDIRECT_URI: response.data.redirectUrl || '',
@@ -48,6 +48,7 @@ export class EnvService {
                 }
             }
             this.updateEnvFile(envs)
+            return envs.TOKEN
         } catch (error) {
             this.updateEnvFile(envs)
             throw error
@@ -81,11 +82,7 @@ export class EnvService {
 
         fs.writeFileSync(envPath, envContent.trim(), 'utf8');
     }
-
-    public updateToken(token: string) {
-        const env = { TOKEN: token }
-        this.updateEnvFile(env)
-    }
+    
     public getToken() {
         return process.env.TOKEN
     }

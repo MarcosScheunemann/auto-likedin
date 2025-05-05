@@ -6,8 +6,19 @@ export class TokenValidGuard implements CanActivate {
     constructor(
         private readonly envService: EnvService
     ) { }
-    canActivate(context: ExecutionContext): boolean {
-        const token = this.envService.getToken()
-        return !!token
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+        let token = this.envService.getToken()
+        if (token) {
+            try {
+                token = await this.envService.getCredentials(token)
+            } catch (error) {
+                throw new UnauthorizedException('Server Error')
+            }
+            if (!token) {
+                throw new UnauthorizedException('Token inválido')
+            }
+            return true
+        }
+        throw new UnauthorizedException('Sem Token')
     }
 }
