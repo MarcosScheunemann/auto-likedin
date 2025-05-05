@@ -4,7 +4,9 @@ export class MakeTextDto {
     @IsOptional()
     topic?: string;
     @IsOptional()
-    inspiration?: string
+    inspiration?: string;
     @IsOptional()
-    job?: string
+    job?: string;
+    @IsOptional()
+    direct: boolean = true;
 }
