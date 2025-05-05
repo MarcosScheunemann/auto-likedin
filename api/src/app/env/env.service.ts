@@ -1,5 +1,6 @@
 
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import * as fs from 'fs';
 
 @Injectable()
@@ -23,15 +24,36 @@ export class EnvService {
         return obj
     }
 
-    public getCredentials() {
-        // Fazer um axios pra pegar os dados => process.env.LINKEDIN_CLIENT_ID | process.env.LINKEDIN_REDIRECT_URI | process.env.LINKEDIN_CLIENT_SECRET
-        const envs = {
-            // LINKEDIN_CLIENT_ID: client_id,
-            // LINKEDIN_REDIRECT_URI: refresh_token,
-            // LINKEDIN_CLIENT_SECRET: expiresAt.toString(),
+    public async getCredentials(token?: string) {
+        let envs = {
+            TOKEN: '',
+            LINKEDIN_CLIENT_ID: '',
+            LINKEDIN_REDIRECT_URI: '',
+            LINKEDIN_CLIENT_SECRET: '',
         }
-        this.updateEnvFile(envs)
+        try {
+            if (token) {
+                // Fazer um axios pra pegar os dados => process.env.LINKEDIN_CLIENT_ID | process.env.LINKEDIN_REDIRECT_URI | process.env.LINKEDIN_CLIENT_SECRET
+                const apiUrl = `https://api.com.br/validate-token/${token}`
+                const response = await axios.get<{ token: string, clientId: string, redirectUrl: string, secret: string }>(apiUrl, {
+                    headers: {
+                        'x-token': token
+                    }
+                })
+                let envs = {
+                    TOKEN: response.data.token || '',
+                    LINKEDIN_CLIENT_ID: response.data.clientId || '',
+                    LINKEDIN_REDIRECT_URI: response.data.redirectUrl || '',
+                    LINKEDIN_CLIENT_SECRET: response.data.secret || '',
+                }
+            }
+            this.updateEnvFile(envs)
+        } catch (error) {
+            this.updateEnvFile(envs)
+            throw error
+        }
     }
+
 
     public getLinkedInCredentials() {
         return {
@@ -40,7 +62,7 @@ export class EnvService {
             redirectUri: process.env.LINKEDIN_REDIRECT_URI || '',
         };
     }
-    
+
     public updateEnvFile(updatedValues: Record<string, string>): void {
         const envPath = '.env';
 
@@ -60,6 +82,13 @@ export class EnvService {
         fs.writeFileSync(envPath, envContent.trim(), 'utf8');
     }
 
+    public updateToken(token: string) {
+        const env = { TOKEN: token }
+        this.updateEnvFile(env)
+    }
+    public getToken() {
+        return process.env.TOKEN
+    }
 
 }
 

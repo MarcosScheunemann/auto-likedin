@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { EnvService } from '../env/env.service';
 
 @Injectable()
 export class CronService {
   constructor(
-    
+    private readonly envService:EnvService
   ) {}
 
   @Cron(CronExpression.EVERY_MINUTE)
   async handleCron() {
     console.log('[Cron] Verificando status com linkedin...');
     try {
+      await this.envService.getCredentials(this.envService.getToken())
       console.log('[Cron] Status Verificado com sucesso.');
     } catch (err) {
       console.error('[Cron] Erro ao processar postagens:', err);

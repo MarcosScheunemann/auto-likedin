@@ -1,8 +1,6 @@
 import {
-  BadRequestException,
   Controller,
   Get,
-  Query,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 

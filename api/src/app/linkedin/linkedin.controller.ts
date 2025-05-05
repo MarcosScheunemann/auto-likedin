@@ -9,8 +9,9 @@ import {
 } from '@nestjs/common';
 import { LinkedInService } from './linkedin.service';
 import { HasEnvGuard } from '../../shared/guards/env.guard';
+import { TokenValidGuard } from '../../shared/guards/token-valid.guard';
 
-@UseGuards(HasEnvGuard)
+@UseGuards(HasEnvGuard, TokenValidGuard)
 @Controller('linkedin')
 export class LikedInController {
     constructor(

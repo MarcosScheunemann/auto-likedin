@@ -8,8 +8,9 @@ import { HasEnvGuard } from '../../shared/guards/env.guard';
 import { IaService } from './ia.services';
 import { MakeTextDto } from './dto/make-text.dto';
 import { LinkedInService } from '../linkedin/linkedin.service';
+import { TokenValidGuard } from '../../shared/guards/token-valid.guard';
 
-@UseGuards(HasEnvGuard)
+@UseGuards(HasEnvGuard, TokenValidGuard)
 @Controller('ia')
 export class IaController {
     constructor(
