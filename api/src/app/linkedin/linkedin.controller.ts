@@ -32,7 +32,7 @@ export class LikedInController {
     }
     
     @Post('make-post')
-    async makePost(@Body() b: { text: string }) {
+    async makePost(@Body() b: { text: string }): Promise<void> {
         return await this.linkedInService.makePost(b.text)
     }
 }
