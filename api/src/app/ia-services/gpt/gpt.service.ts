@@ -37,18 +37,18 @@ export class GptService {
       role: EChatGptRole;
       content: string;
     }[] = [
-      {
-        role: EChatGptRole.SYSTEM,
-        content: `You are a technology and journalism expert. Your task is to analyze a set of technology news articles and select the most relevant one, considering societal impact, innovation, and global relevance. After choosing, you must provide a detailed summary of the news, keeping the most important points.`,
-      },
-      ...notes,
-      {
-        name: 'Marcos',
-        role: EChatGptRole.USER,
-        content:
-          'Now, choose the most relevant news and provide a detailed summary.',
-      },
-    ];
+        {
+          role: EChatGptRole.SYSTEM,
+          content: `You are a technology and journalism expert. Your task is to analyze a set of technology news articles and select the most relevant one, considering societal impact, innovation, and global relevance. After choosing, you must provide a detailed summary of the news, keeping the most important points.`,
+        },
+        ...notes,
+        {
+          name: 'Marcos',
+          role: EChatGptRole.USER,
+          content:
+            'Now, choose the most relevant news and provide a detailed summary.',
+        },
+      ];
     try {
       const response = await axios.post<ChatGptResponseEntity>(
         this.gptUrl,
@@ -68,22 +68,30 @@ export class GptService {
       );
     }
   }
-  public async makePostText(text: string): Promise<string> {
+  public async makePostText(text: string, inspiration?: string, job?: string): Promise<string> {
     if (!text) {
       throw new BadRequestException('Sem texto para tratar!');
     }
     const messages = [
       {
         role: EChatGptRole.SYSTEM,
-        content: `You are an experienced 5 years developer NestJs Backend. Your task is to create a LinkedIn post about technology based on the text the "user" sends. 
+        content: `You are an experienced 5 years ${job || 'developer NestJs Backend'}. Your task is to create a LinkedIn post about technology based on the text the "user" sends. 
         The post should be engaging, put human feelings subtly, add some of your own experience to the post only if it makes sense with the news. 
         Avoid using emojis. The post must have a maximum of 1500 characters and be written in Portuguese. ATENTION! the post cannot contain special characters like )({}@ ,ALWAYS add "Segue pra mais!" at the end of the post.`,
       },
+    ];
+    if (inspiration) {
+      messages.push({
+        role: EChatGptRole.USER,
+        content: `Este é um exemplo de post para se inspirar no estilo de escrita:\n\n${inspiration}`,
+      });
+    }
+    messages.push(
       {
         role: EChatGptRole.USER,
         content: text,
-      },
-    ];
+      }
+    )
     try {
       const response = await axios.post<ChatGptResponseEntity>(
         this.gptUrl,

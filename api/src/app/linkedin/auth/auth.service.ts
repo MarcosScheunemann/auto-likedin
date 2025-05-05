@@ -1,27 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import open from 'open';
-import * as fs from 'fs';
 import * as dotenv from 'dotenv';
+import { EnvService } from '../../env/env.service';
 dotenv.config();
 @Injectable()
 export class LinkedInAuthService {
-  public accessToken: string;
-  private refreshToken: string;
-  private clientId: string;
-  private clientSecret: string;
-  private redirectUri: string;
-  private expiresAt: number; // Timestamp de expiração do token
   private isAuthenticating = false;
-
-  constructor() {
-    this.accessToken = process.env.LINKEDIN_ACCESS_TOKEN || '';
-    this.refreshToken = process.env.LINKEDIN_REFRESH_TOKEN || '';
-    this.clientId = process.env.LINKEDIN_CLIENT_ID || '';
-    this.clientSecret = process.env.LINKEDIN_CLIENT_SECRET || '';
-    this.redirectUri = process.env.LINKEDIN_REDIRECT_URI || '';
-    this.expiresAt = parseInt(process.env.LINKEDIN_EXPIRES_AT || '0', 10);
-  }
+  constructor(private readonly envService: EnvService) { }
 
   public async execute(code?: string): Promise<boolean> {
     if (await this.ensureAuthenticated()) {
@@ -38,6 +24,7 @@ export class LinkedInAuthService {
       return;
     }
     this.isAuthenticating = true;
+    const { clientId, redirectUri } = this.envService.getLinkedInCredentials();
     try {
       // Permissão para postar no perfil pessoal
       const scopeList = [
@@ -59,8 +46,8 @@ export class LinkedInAuthService {
       ];
       const scope = encodeURIComponent(scopeList.join(' '));
 
-      const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${this.clientId}&redirect_uri=${encodeURIComponent(
-        this.redirectUri,
+      const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
+        redirectUri,
       )}&state=qualquercoisa&scope=${scope}`;
 
       await open(authUrl);
@@ -73,6 +60,7 @@ export class LinkedInAuthService {
   }
 
   private async fetchAccessToken(code: string): Promise<any> {
+    const { clientId, clientSecret, redirectUri } = this.envService.getLinkedInCredentials();
     try {
       const response = await axios.post(
         'https://www.linkedin.com/oauth/v2/accessToken',
@@ -81,9 +69,9 @@ export class LinkedInAuthService {
           params: {
             grant_type: 'authorization_code',
             code: code,
-            redirect_uri: this.redirectUri,
-            client_id: this.clientId,
-            client_secret: this.clientSecret,
+            redirect_uri: redirectUri,
+            client_id: clientId,
+            client_secret: clientSecret,
           },
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -93,14 +81,11 @@ export class LinkedInAuthService {
       const { access_token, expires_in, refresh_token } = response.data;
       const expiresAt = Date.now() + expires_in * 1000;
 
-      this.updateEnvFile({
+      this.envService.updateEnvFile({
         LINKEDIN_ACCESS_TOKEN: access_token,
         LINKEDIN_REFRESH_TOKEN: refresh_token,
         LINKEDIN_EXPIRES_AT: expiresAt.toString(),
       });
-      this.accessToken = access_token;
-      this.refreshToken = refresh_token;
-      this.expiresAt = expiresAt;
 
       return true;
     } catch (error: any) {
@@ -115,8 +100,10 @@ export class LinkedInAuthService {
   }
 
   private async refreshAccessToken() {
+    const { clientId, clientSecret } = this.envService.getLinkedInCredentials();
+    const refreshToken = this.envService.getEnvs().linkedinRefreshToken;
     try {
-      if (!this.refreshToken) {
+      if (!refreshToken) {
         await this.openAuthUrl();
         return false;
       }
@@ -127,9 +114,9 @@ export class LinkedInAuthService {
         {
           params: {
             grant_type: 'refresh_token',
-            refresh_token: this.refreshToken,
-            client_id: this.clientId,
-            client_secret: this.clientSecret,
+            refresh_token: refreshToken,
+            client_id: clientId,
+            client_secret: clientSecret,
           },
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -140,15 +127,11 @@ export class LinkedInAuthService {
       const { access_token, expires_in, refresh_token } = response.data;
       const expiresAt = Date.now() + expires_in * 1000;
 
-      this.updateEnvFile({
+      this.envService.updateEnvFile({
         LINKEDIN_ACCESS_TOKEN: access_token,
         LINKEDIN_REFRESH_TOKEN: refresh_token,
         LINKEDIN_EXPIRES_AT: expiresAt.toString(),
       });
-
-      this.accessToken = access_token;
-      this.refreshToken = refresh_token;
-      this.expiresAt = expiresAt;
 
       return true;
     } catch (error: any) {
@@ -162,7 +145,8 @@ export class LinkedInAuthService {
         return false;
       }
     }
-    if (!this.accessToken) {
+    const accessToken = this.envService.getEnvs().linkedinAccessToken;
+    if (!accessToken) {
       await this.openAuthUrl();
       return false;
     }
@@ -171,28 +155,10 @@ export class LinkedInAuthService {
   }
 
   public isTokenExpired(): boolean {
-    if (!this.expiresAt){
+    const expiresAt = parseInt(this.envService.getEnvs().linkedinExpiresAt || '0', 10,);
+    if (!expiresAt) {
       return true
     }
-    return Date.now() >= this.expiresAt; 
-  }
-
-  public updateEnvFile(updatedValues: Record<string, string>): void {
-    const envPath = '.env';
-
-    let envContent = fs.existsSync(envPath)
-      ? fs.readFileSync(envPath, 'utf8')
-      : '';
-
-    Object.keys(updatedValues).forEach((key) => {
-      const regex = new RegExp(`^${key}=.*`, 'm');
-      if (regex.test(envContent)) {
-        envContent = envContent.replace(regex, `${key}=${updatedValues[key]}`);
-      } else {
-        envContent += `\n${key}=${updatedValues[key]}`;
-      }
-    });
-
-    fs.writeFileSync(envPath, envContent.trim(), 'utf8');
+    return Date.now() >= expiresAt;
   }
 }

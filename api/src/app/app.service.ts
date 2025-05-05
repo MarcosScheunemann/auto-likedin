@@ -12,7 +12,7 @@ export class AppService {
     private readonly gptService: GptService,
     private readonly linkedInService: LinkedInService,
   ) {}
-  async oneforAll(code?: string) {
+  async execute(code?: string) {
     try {
       const canPass = await this.linkedInService.canPass(code);
       // const canPass = true

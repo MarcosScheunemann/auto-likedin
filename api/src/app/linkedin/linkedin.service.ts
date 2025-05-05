@@ -1,17 +1,17 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
-import open from 'open';
 import { LinkedInAuthService } from './auth/auth.service';
+import { EnvService } from '../env/env.service';
 
 dotenv.config();
 @Injectable()
 export class LinkedInService {
   private static hasAlreadyExecuted = false;
-  private personId: string;
-  constructor(private readonly linkedinAuthService: LinkedInAuthService) {
-    this.personId = process.env.LINKEDIN_PERSON_ID || '';
-  }
+  constructor(
+    private readonly envService: EnvService,
+    private readonly linkedinAuthService: LinkedInAuthService,
+  ) { }
 
   /**
    * Método principal que executa a postagem.
@@ -39,7 +39,8 @@ export class LinkedInService {
   }
 
   private async getInfo(): Promise<void> {
-    const auth = `Bearer ${this.linkedinAuthService.accessToken}`;
+
+    const auth = `Bearer ${this.envService.getEnvs().linkedinAccessToken}`;
     const url = 'https://api.linkedin.com/v2/userinfo';
     const headers = {
       Authorization: auth,
@@ -50,8 +51,7 @@ export class LinkedInService {
     try {
       const response = await axios.get(url, { headers });
       const personId = response.data.sub ?? '';
-      this.personId = personId;
-      this.linkedinAuthService.updateEnvFile({ LINKEDIN_PERSON_ID: personId });
+      this.envService.updateEnvFile({ LINKEDIN_PERSON_ID: personId });
     } catch (error: any) {
       if (error.status === 401) {
         await this.linkedinAuthService.execute();
@@ -61,16 +61,18 @@ export class LinkedInService {
   }
 
   private hasInfo(): boolean {
-    if (this.personId) {
+    const personId = this.envService.getEnvs().linkedinPersonId
+    if (personId) {
       return true;
     }
     return false;
   }
 
   public async makePost(text: string) {
+    const { linkedinAccessToken, linkedinPersonId } = this.envService.getEnvs()
     const canPass = await this.canPass();
-    const auth = `Bearer ${this.linkedinAuthService.accessToken}`;
-    const author = `urn:li:person:${this.personId}`;
+    const auth = `Bearer ${linkedinAccessToken}`;
+    const author = `urn:li:person:${linkedinPersonId}`;
     const url = 'https://api.linkedin.com/rest/posts';
     const headers = {
       Authorization: auth,
@@ -98,7 +100,6 @@ export class LinkedInService {
       await axios.post(url, body, { headers });
     } catch (error: any) {
       if (error.status === 401) {
-        console.log(error.status === 401);
         await this.linkedinAuthService.execute();
       }
       throw error;

@@ -11,15 +11,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello() {
-    return this.appService.oneforAll();
+  execute() {
+    return this.appService.execute();
   }
 
-  @Get('callback')
-  async getCallback(@Query('code') code: string) {
-    if (!code) {
-      throw new BadRequestException('❌ Código de autorização ausente!');
-    }
-    await this.appService.oneforAll(code);
-  }
 }
