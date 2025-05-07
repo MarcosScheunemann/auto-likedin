@@ -21,6 +21,9 @@ import {
   IonChip,
   IonToggle,
   IonTextarea,
+  IonCol,
+  IonRow,
+  IonGrid,
 } from '@ionic/angular/standalone';
 import { environment } from '../../../environments/environment';
 import { ApiGeneralService } from '../api/api-general.service';
@@ -33,14 +36,12 @@ import { ApiGeneralService } from '../api/api-general.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    // Ionic standalone components usados no template
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
     IonButton,
     IonInput,
-    IonLabel,
     IonItem,
     IonCard,
     IonCardHeader,
@@ -49,6 +50,10 @@ import { ApiGeneralService } from '../api/api-general.service';
     IonChip,
     IonToggle,
     IonTextarea,
+    IonCol,
+    IonRow,
+    IonGrid,
+    // IonLabel,
   ],
 })
 export class HomePage implements OnInit {
@@ -57,7 +62,7 @@ export class HomePage implements OnInit {
   keysForm!: FormGroup;
 
   tokenStatus: boolean | null = null;
-  linkedinStatus: boolean | null = null;
+  linkedinStatus: boolean = false;
   generatedText: string | null = null;
   keysSaved = false;
 
@@ -78,7 +83,7 @@ export class HomePage implements OnInit {
       topic: ['', Validators.required],
       inspiration: [''],
       job: [''],
-      direct: [true],
+      direct: [this.linkedinStatus],
     });
 
     this.keysForm = this.fb.group({

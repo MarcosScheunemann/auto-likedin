@@ -4,110 +4,106 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <!-- TOKEN VALIDATION -------------------------------------------------->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Validar Token</ion-card-title>
-    </ion-card-header>
-    <ion-card-content *ngIf="tokenForm">
-      <form [formGroup]="tokenForm" (ngSubmit)="validateToken()">
-        <ion-item lines="none">
-          <ion-input
-            type="text"
-            placeholder="Cole seu token aqui"
-            formControlName="token"
-          ></ion-input>
-        </ion-item>
-        <ion-button expand="block" type="submit" [disabled]="tokenForm.invalid">
-          Validar
-        </ion-button>
-      </form>
-      <div class="status-wrapper" *ngIf="tokenStatus !== null">
-        <ion-chip [color]="tokenStatus ? 'success' : 'danger'">
-          {{ tokenStatus ? 'Token válido' : 'Token inválido' }}
-        </ion-chip>
-      </div>
-    </ion-card-content>
-  </ion-card>
+<ion-content class="ion-padding central-content">
+  <!-- RESPONSIVE GRID -------------------------------------------------->
+  <ion-grid>
+    <ion-row>
+      <!-- COL 1 ------------------------------------------------------->
+      <ion-col size="12" size-md="6">
+        <!-- TOKEN VALIDATION ---------------------------------------->
+        <ion-card class="laki-card">
+          <ion-card-header>
+            <ion-card-title>Validar Token</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="tokenForm">
+            <form [formGroup]="tokenForm" (ngSubmit)="validateToken()">
+              <ion-item lines="none" class="input-item">
+                <ion-input
+                  type="text"
+                  placeholder="Cole seu token aqui"
+                  formControlName="token"
+                ></ion-input>
+              </ion-item>
+              <ion-button expand="block" shape="round" type="submit" color="secondary" [disabled]="tokenForm.invalid">
+                Validar
+              </ion-button>
+            </form>
+            <div class="status-wrapper" *ngIf="tokenStatus !== null">
+              <ion-chip [color]="tokenStatus ? 'success' : 'danger'">
+                {{ tokenStatus ? 'Token válido' : 'Token inválido' }}
+              </ion-chip>
+            </div>
+          </ion-card-content>
+        </ion-card>
 
-  <!-- TEXT GENERATION ---------------------------------------------------->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Gerar Texto IA</ion-card-title>
-    </ion-card-header>
-    <ion-card-content *ngIf="textForm">
-      <form [formGroup]="textForm" (ngSubmit)="generateText()">
-        <ion-item lines="none">
-          <ion-label position="stacked">Tópico</ion-label>
-          <ion-input formControlName="topic"></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label position="stacked">Inspiração (opcional)</ion-label>
-          <ion-textarea
-            autoGrow="true"
-            formControlName="inspiration"
-          ></ion-textarea>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label position="stacked">Cargo (opcional)</ion-label>
-          <ion-input formControlName="job"></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label>Direto?</ion-label>
-          <ion-toggle formControlName="direct"></ion-toggle>
-        </ion-item>
-        <ion-button expand="block" type="submit" [disabled]="textForm.invalid">
-          Gerar
-        </ion-button>
-      </form>
-      <ion-textarea
-        *ngIf="generatedText"
-        readonly
-        autoGrow="true"
-        value="{{ generatedText }}"
-        class="result-area"
-      ></ion-textarea>
-    </ion-card-content>
-  </ion-card>
+        <!-- LINKEDIN STATUS ------------------------------------------>
+        <ion-card class="laki-card">
+          <ion-card-header>
+            <ion-card-title>LinkedIn</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-button expand="block" shape="round" color="tertiary" (click)="checkLinkedin()">
+              Verificar conta
+            </ion-button>
+            <div class="status-wrapper" *ngIf="linkedinStatus !== null">
+              <ion-chip [color]="linkedinStatus ? 'success' : 'danger'">
+                {{ linkedinStatus ? 'LinkedIn conectado' : 'Não conectado' }}
+              </ion-chip>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-  <!-- LINKEDIN STATUS ---------------------------------------------------->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>LinkedIn</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button expand="block" (click)="checkLinkedin()"
-        >Verificar conta</ion-button
-      >
-      <div class="status-wrapper" *ngIf="linkedinStatus !== null">
-        <ion-chip [color]="linkedinStatus ? 'success' : 'danger'">
-          {{ linkedinStatus ? 'LinkedIn conectado' : 'Não conectado' }}
-        </ion-chip>
-      </div>
-    </ion-card-content>
-  </ion-card>
+      <!-- COL 2 ------------------------------------------------------->
+      <ion-col size="12" size-md="6">
+        <!-- TEXT GENERATION ----------------------------------------->
+        <ion-card class="laki-card">
+          <ion-card-header>
+            <ion-card-title>Gerar Texto IA</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="textForm">
+            <form [formGroup]="textForm" (ngSubmit)="generateText()">
+              <ion-item lines="none" class="input-item">
+                <ion-input label="Tópico" labelPlacement="stacked" formControlName="topic"></ion-input>
+              </ion-item>
+              <ion-item lines="none" class="input-item">
+                <ion-textarea label="Texto de Inspiração (opcional)" labelPlacement="stacked" autoGrow="true" formControlName="inspiration"></ion-textarea>
+              </ion-item>
+              <ion-item lines="none" class="input-item">
+                <ion-input label="Cargo (opcional)" labelPlacement="stacked" formControlName="job"></ion-input>
+              </ion-item>
+              <ion-item lines="none" class="input-item">
+                <ion-toggle formControlName="direct" [disabled]="!linkedinStatus">Enviar ao Linkedin diretamente?</ion-toggle>
+              </ion-item>
+              <ion-button expand="block" shape="round" color="secondary" type="submit" [disabled]="textForm.invalid">
+                Gerar
+              </ion-button>
+            </form>
+            <ion-textarea *ngIf="generatedText" readonly autoGrow="true" value="{{ generatedText }}" class="result-area"></ion-textarea>
+          </ion-card-content>
+        </ion-card>
 
-  <!-- API‑KEYS ----------------------------------------------------------->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Minhas API‑Keys</ion-card-title>
-    </ion-card-header>
-    <ion-card-content *ngIf="keysForm">
-      <form [formGroup]="keysForm" (ngSubmit)="saveKeys()">
-        <ion-item lines="none">
-          <ion-label position="stacked">OpenAI Key</ion-label>
-          <ion-input type="password" formControlName="openaiKey"></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label position="stacked">LinkedIn Key</ion-label>
-          <ion-input type="password" formControlName="linkedinKey"></ion-input>
-        </ion-item>
-        <ion-button expand="block" type="submit" [disabled]="keysForm.invalid">
-          Salvar
-        </ion-button>
-      </form>
-      <p class="info-text" *ngIf="keysSaved">Chaves salvas no dispositivo.</p>
-    </ion-card-content>
-  </ion-card>
+        <!-- API-KEYS -------------------------------------------------->
+        <ion-card class="laki-card">
+          <ion-card-header>
+            <ion-card-title>Minhas API-Keys</ion-card-title>
+          </ion-card-header>
+          <ion-card-content *ngIf="keysForm">
+            <form [formGroup]="keysForm" (ngSubmit)="saveKeys()">
+              <ion-item lines="none" class="input-item">
+                <ion-input label="OpenAI Key" labelPlacement="stacked" type="password" formControlName="openaiKey"></ion-input>
+              </ion-item>
+              <ion-item lines="none" class="input-item">
+                <ion-input label="LinkedIn Key" labelPlacement="stacked" type="password" formControlName="linkedinKey"></ion-input>
+              </ion-item>
+              <ion-button expand="block" shape="round" color="secondary" type="submit" [disabled]="keysForm.invalid">
+                Salvar
+              </ion-button>
+            </form>
+            <p class="info-text" *ngIf="keysSaved">Chaves salvas no dispositivo.</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
