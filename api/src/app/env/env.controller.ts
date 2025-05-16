@@ -17,14 +17,16 @@ export class EnvController {
 
     @Get('token/:token')
     async execute(@Param() p: any) {
-        this.env.getCredentials(p.token)
+        await this.env.getCredentials(p.token)
     }
     @Post('token/g-news')
-    async gNews(@Body() b: {token: string}) {
+    async gNews(@Body() b: { token: string }) {
         this.env.gnews = b.token
+        return 'Token GNews atualizado com sucesso!'
     }
     @Post('token/openai')
-    async openai(@Body() b: {token: string}) {
+    async openai(@Body() b: { token: string }) {
         this.env.openAi = b.token
+        return 'Token OpenAi atualizado com sucesso!'
     }
 }

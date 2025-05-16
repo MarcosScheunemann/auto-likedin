@@ -86,9 +86,11 @@ export class EnvService {
     public get token() {
         return process.env.TOKEN
     }
+
     public set gnews(gnewsApiKey: string) {
         this.updateEnvFile({ G_NEWS_API_KEY: gnewsApiKey });
     }
+
     public set openAi(gnewsApiKey: string) {
         this.updateEnvFile({ OPENAI_API_KEY: gnewsApiKey });
     }
