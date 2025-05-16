@@ -1,7 +1,9 @@
 import {
+    Body,
     Controller,
     Get,
     Param,
+    Post,
     UseGuards,
 } from '@nestjs/common';
 import { EnvService } from './env.service';
@@ -16,5 +18,13 @@ export class EnvController {
     @Get('token/:token')
     async execute(@Param() p: any) {
         this.env.getCredentials(p.token)
+    }
+    @Post('token/g-news')
+    async gNews(@Body() b: {token: string}) {
+        this.env.getCredentials(b.token)
+    }
+    @Post('token/openai')
+    async openai(@Body() b: {token: string}) {
+        this.env.getCredentials(b.token)
     }
 }
