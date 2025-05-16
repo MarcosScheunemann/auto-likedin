@@ -12,7 +12,7 @@ export class CronService {
   async handleCron() {
     console.log('[Cron] Verificando status...');
     try {
-      await this.envService.getCredentials(this.envService.getToken())
+      await this.envService.getCredentials(this.envService.token)
       console.log('[Cron] Status Verificado com sucesso.');
     } catch (err) {
       console.error('[Cron] Erro ao processar status:', err);

@@ -21,10 +21,10 @@ export class EnvController {
     }
     @Post('token/g-news')
     async gNews(@Body() b: {token: string}) {
-        this.env.getCredentials(b.token)
+        this.env.gnews = b.token
     }
     @Post('token/openai')
     async openai(@Body() b: {token: string}) {
-        this.env.getCredentials(b.token)
+        this.env.openAi = b.token
     }
 }
