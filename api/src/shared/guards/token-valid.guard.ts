@@ -7,7 +7,7 @@ export class TokenValidGuard implements CanActivate {
         private readonly envService: EnvService
     ) { }
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        let token = this.envService.getToken()
+        let token = this.envService.token
         if (token) {
             try {
                 token = await this.envService.getCredentials(token)
