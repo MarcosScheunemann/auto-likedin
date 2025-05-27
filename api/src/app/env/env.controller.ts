@@ -6,7 +6,7 @@ import {
     Post,
     UseGuards,
 } from '@nestjs/common';
-import { EnvService } from './env.service';
+import { EnvService, GenerateTokenDTO } from './env.service';
 
 @UseGuards()
 @Controller()
@@ -16,8 +16,13 @@ export class EnvController {
     ) { }
 
     @Get('token/:token')
-    async execute(@Param() p: any) {
+    async execute(@Param() p: { token: string }) {
         await this.env.getCredentials(p.token)
+    }
+
+    @Post('token/generate')
+    async genToken(@Body() obj: GenerateTokenDTO): Promise<string | undefined> {
+        return await this.env.generateToken(obj)
     }
 
     @Post('token/g-news')
@@ -25,7 +30,7 @@ export class EnvController {
         this.env.gnews = b.token
         return 'Token GNews atualizado com sucesso!'
     }
-    
+
     @Post('token/openai')
     async openai(@Body() b: { token: string }) {
         this.env.openAi = b.token
