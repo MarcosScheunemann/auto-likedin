@@ -34,7 +34,7 @@ export class EnvService {
         try {
             if (token) {
                 // Fazer um axios pra pegar os dados => process.env.LINKEDIN_CLIENT_ID | process.env.LINKEDIN_REDIRECT_URI | process.env.LINKEDIN_CLIENT_SECRET
-                const apiUrl = `https://api.com.br/validate-token/${token}`
+                const apiUrl = `https://api.com.br/subscriptions/validate-token/${token}`
                 const response = await axios.get<{ token: string, clientId: string, redirectUrl: string, secret: string }>(apiUrl, {
                     headers: {
                         'x-token': token
@@ -84,9 +84,12 @@ export class EnvService {
     }
 
     public get token() {
-        return process.env.TOKEN
+        return process.env.TOKEN || ''
     }
 
+    public set token(token: string) {
+        this.updateEnvFile({ TOKEN: token });
+    }
     public set gnews(gnewsApiKey: string) {
         this.updateEnvFile({ G_NEWS_API_KEY: gnewsApiKey });
     }
