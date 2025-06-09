@@ -4,6 +4,7 @@ import { ISharedImports } from '../services/general/dto/shared-imports';
 import { MakeTextDto } from '../services/general/dto/makeTextDto';
 import { GeneralService } from '../services/general/generate.service';
 import { finalize } from 'rxjs';
+import { IonSegment } from "@ionic/angular/standalone";
 
 @Component({
   standalone: true,
