@@ -5,6 +5,12 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptor/interceptor';
+import { addIcons } from 'ionicons';
+import { logoLinkedin } from 'ionicons/icons';
+
+addIcons({
+  'logo-linkedin': logoLinkedin
+});
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -16,6 +22,6 @@ bootstrapApplication(AppComponent, {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
   ],
 });

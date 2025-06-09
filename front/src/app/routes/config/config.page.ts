@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { ISharedImports } from '../services/general/dto/shared-imports';
 
 @Component({
   selector: 'app-config',
   templateUrl: './config.page.html',
   styleUrls: ['./config.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: ISharedImports
 })
 export class ConfigPage implements OnInit {
 
@@ -16,5 +14,33 @@ export class ConfigPage implements OnInit {
 
   ngOnInit() {
   }
+  public validateToken(): void {
+    console.log('Validando token:', this.subscriptionToken);
+    // Adicione lógica de validação real aqui
+  }
 
+  public get openAiKey(): string {
+    return localStorage.getItem('openai_key') || '';
+  }
+
+  public set openAiKey(value: any) {
+  if (typeof value !== 'string') return;
+    localStorage.setItem('openai_key', value);
+  }
+  public get gnewsKey(): string {
+    return localStorage.getItem('gnews_key') || '';
+  }
+
+  public set gnewsKey(value: any) {
+  if (typeof value !== 'string') return;
+    localStorage.setItem('gnews_key', value);
+  }
+  public get subscriptionToken(): string {
+    return localStorage.getItem('subscription_token') || '';
+  }
+
+  public set subscriptionToken(value: any) {
+  if (typeof value !== 'string') return;
+    localStorage.setItem('subscription_token', value);
+  }
 }

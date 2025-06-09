@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { ISharedImports } from '../services/general/dto/shared-imports';
 
 @Component({
   selector: 'app-singup',
   templateUrl: './singup.page.html',
   styleUrls: ['./singup.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: ISharedImports
 })
 export class SingupPage implements OnInit {
 
