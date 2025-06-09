@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ISharedImports } from '../services/general/dto/shared-imports';
+import { TokenSyncService } from '../api/token-sync-service';
 
 @Component({
   selector: 'app-config',
@@ -10,7 +11,9 @@ import { ISharedImports } from '../services/general/dto/shared-imports';
 })
 export class ConfigPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private readonly tokenSyncService: TokenSyncService
+  ) { }
 
   ngOnInit() { }
   public get openAiKey(): string {
@@ -36,5 +39,9 @@ export class ConfigPage implements OnInit {
   public set subscriptionToken(value: any) {
     if (typeof value !== 'string') return;
     localStorage.setItem('subscription_token', value);
+  }
+
+  update() {
+    this.tokenSyncService.syncAll()
   }
 }

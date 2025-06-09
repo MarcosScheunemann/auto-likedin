@@ -55,7 +55,8 @@
           <div class="section">
             <h5>Subscription</h5>
 
-            <ion-label position="stacked">Token Key
+            <ion-label position="stacked"
+              >Token Key
               <h6 class="small-font">Precisa de um Token? vá para "SING UP"</h6>
             </ion-label>
             <ion-input
@@ -64,6 +65,12 @@
               placeholder="Enter your subscription token"
               class="input-dark"
             ></ion-input>
+          </div>
+
+          <div class="btn-wrapper">
+            <ion-button expand="block" (click)="update()"
+              >Atualizar</ion-button
+            >
           </div>
         </div>
       </ion-col>
