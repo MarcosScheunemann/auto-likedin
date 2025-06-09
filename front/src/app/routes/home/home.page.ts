@@ -37,6 +37,9 @@ export class GenPostPage implements OnInit {
   }
 
   public generate(): void {
+    if (this.loading){
+      return
+    }
     this.form.markAllAsTouched();
     const { inspiration, topic, clientRole, sendDirect } = this.form?.value;
     const dto: MakeTextDto = {
@@ -55,8 +58,7 @@ export class GenPostPage implements OnInit {
             this.generatedText = res
           ),
           error: (err) => (
-            console.log('Deu erro -->', err),
-            this.generatedText = err?.message || "Ocorreu um erro desconhecido, Tente novamente"
+            this.generatedText = err?.message || `Ocorreu um erro desconhecido, Tente novamente - \n ${JSON.stringify(err)}`
           )
         }
       )
