@@ -1,0 +1,84 @@
+:host {
+  ion-content {
+    --background: #0d1117; /* main dark background */
+  }
+}
+
+.nav-bar {
+  --background: #0b0d14; /* navbar dark */
+  border-bottom: 1px solid #1e222e;
+  --min-height: 56px;
+}
+
+.app-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.nav-links a {
+  color: #ffffff;
+  font-size: 0.875rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.form-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 4rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.75rem;
+  color: #ffffff;
+  margin-bottom: 2.5rem;
+  font-family: 'Newsreader', serif;
+  font-weight: 700;
+}
+
+ion-label {
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.input-dark {
+  --background: #111a2e;
+  --border-radius: 6px;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  height: 48px;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  --placeholder-color: #6b7280;
+  border: 1px solid #1e293b;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  color: #ffffff;
+}
+
+.generate-btn {
+  display: flex;
+  justify-content: end;
+}
+
+ion-button {
+  width: 160px;
+  --background: #1677ff;
+  --border-radius: 6px;
+  --box-shadow: none;
+}

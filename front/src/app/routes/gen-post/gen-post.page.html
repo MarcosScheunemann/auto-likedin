@@ -1,0 +1,49 @@
+<ion-content fullscreen>
+  <ion-grid>
+    <ion-row>
+      <!-- Coluna esquerda: formulário -->
+      <ion-col size="8" size-md="8">
+        <div class="form-wrapper ion-padding">
+          <h1>Generate a LinkedIn Post</h1>
+
+          <form [formGroup]="form" *ngIf="form" (ngSubmit)="generate()">
+            <ion-label position="stacked">Inspiração</ion-label>
+            <ion-input
+              formControlName="inspiration"
+              class="input-dark"
+              placeholder="Enter your inspiration"
+            ></ion-input>
+
+            <ion-label position="stacked">Tópico</ion-label>
+            <ion-input
+              formControlName="topic"
+              class="input-dark"
+              placeholder="Enter the topic of your post"
+            ></ion-input>
+
+            <ion-label position="stacked">Cargo</ion-label>
+            <ion-input
+              formControlName="clientRole"
+              class="input-dark"
+              placeholder="Enter your client's role"
+            ></ion-input>
+
+            <ion-item lines="none" class="checkbox-row">
+              <ion-label>Enviar ao Linkedin Diretamente</ion-label>
+              <ion-checkbox slot="start" formControlName="sendDirect"></ion-checkbox>
+            </ion-item>
+
+            <div class="generate-btn">
+              <ion-button type="submit" expand="block">Generate</ion-button>
+            </div>
+          </form>
+        </div>
+      </ion-col>
+
+      <ion-col size="4" size-md="4">
+        <!-- Um quadro que mostrará o texto gerado num campo editável. -->
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
