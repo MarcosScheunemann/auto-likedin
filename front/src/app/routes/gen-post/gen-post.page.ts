@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IIonic } from '../services/general/dto/ionic';
+import { ISharedImports } from '../services/general/dto/shared-imports';
 
 @Component({
+  standalone: true,
   selector: 'app-gen-post',
   templateUrl: './gen-post.page.html',
   styleUrls: ['./gen-post.page.scss'],
-  standalone: true,
-  imports: [...IIonic]
+  imports: [...ISharedImports]
 })
 export class GenPostPage implements OnInit {
   public form: FormGroup | null;
