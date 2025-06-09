@@ -3,16 +3,19 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ISharedImports } from '../services/general/dto/shared-imports';
 import { MakeTextDto } from '../services/general/dto/makeTextDto';
 import { GeneralService } from '../services/general/generate.service';
+import { finalize } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'app-gen-post',
   templateUrl: './gen-post.page.html',
   styleUrls: ['./gen-post.page.scss'],
-  imports: [...ISharedImports]
+  imports: ISharedImports
 })
 export class GenPostPage implements OnInit {
   public form: FormGroup;
+  public generatedText: string = '';
+  public loading: boolean = false
   constructor(
     private fb: FormBuilder,
     private readonly generalService: GeneralService
@@ -42,16 +45,21 @@ export class GenPostPage implements OnInit {
       job: clientRole,
       direct: sendDirect
     }
-    this.generalService.makeText(dto).subscribe(
-      {
-        next: (res) => (
-          console.log('Feita a response -->', res)
-        ),
-        error: (err) => (
-          console.log('Deu erro -->', err)
-        )
-      }
-    )
+    this.loading = true
+    this.generalService.makeText(dto)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe(
+        {
+          next: (res) => (
+            console.log('Feita a response -->', res),
+            this.generatedText = res
+          ),
+          error: (err) => (
+            console.log('Deu erro -->', err),
+            this.generatedText = err?.message || "Ocorreu um erro desconhecido, Tente novamente"
+          )
+        }
+      )
   }
 
 }

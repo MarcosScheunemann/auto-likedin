@@ -38,14 +38,25 @@
             </ion-item>
 
             <div class="generate-btn">
-              <ion-button type="submit" expand="block">Gerar</ion-button>
+              @if(loading){
+              <ion-spinner name="dots"></ion-spinner>
+              }
+              <ion-button type="submit" expand="block"> Gerar </ion-button>
             </div>
           </form>
         </div>
       </ion-col>
-
-      <ion-col size="4" size-md="4">
-        <!-- Um quadro que mostrará o texto gerado num campo editável. -->
+      <ion-col size="4" size-md="4" class="response-col">
+        <ion-card class="output-card">
+          <ion-card-content>
+            <ion-textarea
+              readonly
+              autoGrow="true"
+              class="generated-text"
+              [value]="generatedText"
+            ></ion-textarea>
+          </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>

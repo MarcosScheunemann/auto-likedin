@@ -87,3 +87,40 @@ ion-button {
   font-size: 0.7rem;
   color: #9ca3af; /* light gray for small text */
 }
+.response-col {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.output-card {
+  width: 100%;
+  max-width: 100%;
+  min-height: 37rem;
+  background-color: #111a2e;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  ion-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  ion-card-content {
+    padding: 0.5rem 0 0 0;
+  }
+
+  .generated-text {
+    background-color: #0d1117;
+    border: 1px solid #1e293b;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    min-height: 480px;
+    width: 100%;
+  }
+}
+
