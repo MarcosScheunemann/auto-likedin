@@ -4,13 +4,12 @@ import { ISharedImports } from '../services/general/dto/shared-imports';
 import { MakeTextDto } from '../services/general/dto/makeTextDto';
 import { GeneralService } from '../services/general/generate.service';
 import { finalize } from 'rxjs';
-import { IonSegment } from "@ionic/angular/standalone";
 
 @Component({
   standalone: true,
-  selector: 'app-gen-post',
-  templateUrl: './gen-post.page.html',
-  styleUrls: ['./gen-post.page.scss'],
+  selector: 'app-home',
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
   imports: ISharedImports
 })
 export class GenPostPage implements OnInit {

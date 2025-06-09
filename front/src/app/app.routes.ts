@@ -9,6 +9,6 @@ export const routes: Routes = [
   },
   {
     path: ERouters.HOME,
-    loadComponent: () => import('./routes/gen-post/gen-post.page').then( m => m.GenPostPage)
+    loadComponent: () => import('./routes/home/home.page').then( m => m.GenPostPage)
   },
 ];

@@ -1,14 +1,14 @@
 <ion-app>
   <ion-header
     ><ion-toolbar>
-      <ion-segment value="Home">
-        <ion-segment-button value="Home">
+      <ion-segment [value]="currentTab" (ionChange)="navigate($event)">
+        <ion-segment-button value="home">
           <ion-label>Home</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="Configuração">
+        <ion-segment-button value="config">
           <ion-label>Configuração</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="Sing Up">
+        <ion-segment-button value="singup">
           <ion-label>Sing Up</ion-label>
         </ion-segment-button>
       </ion-segment>
