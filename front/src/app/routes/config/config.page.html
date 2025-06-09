@@ -1,7 +1,5 @@
 <ion-header>
-    <ion-toolbar>
-
-    </ion-toolbar>
+  <ion-toolbar> </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-grid>
@@ -57,19 +55,15 @@
           <div class="section">
             <h5>Subscription</h5>
 
-            <ion-label position="stacked">Token Key</ion-label>
+            <ion-label position="stacked">Token Key
+              <h6 class="small-font">Precisa de um Token? vá para "SING UP"</h6>
+            </ion-label>
             <ion-input
               [value]="subscriptionToken"
               (ionChange)="subscriptionToken = $event.detail.value"
               placeholder="Enter your subscription token"
               class="input-dark"
             ></ion-input>
-          </div>
-
-          <div class="btn-wrapper">
-            <ion-button expand="block" (click)="validateToken()"
-              >Validate Token</ion-button
-            >
           </div>
         </div>
       </ion-col>

@@ -12,19 +12,13 @@ export class ConfigPage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-  public validateToken(): void {
-    console.log('Validando token:', this.subscriptionToken);
-    // Adicione lógica de validação real aqui
-  }
-
+  ngOnInit() { }
   public get openAiKey(): string {
     return localStorage.getItem('openai_key') || '';
   }
 
   public set openAiKey(value: any) {
-  if (typeof value !== 'string') return;
+    if (typeof value !== 'string') return;
     localStorage.setItem('openai_key', value);
   }
   public get gnewsKey(): string {
@@ -32,7 +26,7 @@ export class ConfigPage implements OnInit {
   }
 
   public set gnewsKey(value: any) {
-  if (typeof value !== 'string') return;
+    if (typeof value !== 'string') return;
     localStorage.setItem('gnews_key', value);
   }
   public get subscriptionToken(): string {
@@ -40,7 +34,7 @@ export class ConfigPage implements OnInit {
   }
 
   public set subscriptionToken(value: any) {
-  if (typeof value !== 'string') return;
+    if (typeof value !== 'string') return;
     localStorage.setItem('subscription_token', value);
   }
 }
