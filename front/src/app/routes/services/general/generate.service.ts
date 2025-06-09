@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ApiGeneralService } from '../../api/api-general.service';
+import { MakeTextDto } from './dto/makeTextDto';
 
 @Injectable({
     providedIn: 'root',
 })
 export class GeneralService {
-    // #region Constructors (1)
 
     constructor(
         private readonly api: ApiGeneralService,
@@ -19,5 +19,12 @@ export class GeneralService {
             })
         );
     }
-    
+    public makeText(obj: MakeTextDto): Observable<string> {
+        return this.api.makeText(obj).pipe(
+            map((res: string) => {
+                return res
+            })
+        )
+    }
+
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ISharedImports } from '../services/general/dto/shared-imports';
+import { MakeTextDto } from '../services/general/dto/makeTextDto';
+import { GeneralService } from '../services/general/generate.service';
 
 @Component({
   standalone: true,
@@ -10,12 +12,19 @@ import { ISharedImports } from '../services/general/dto/shared-imports';
   imports: [...ISharedImports]
 })
 export class GenPostPage implements OnInit {
-  public form: FormGroup | null;
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      inspiration: ['', Validators.required],
-      topic: ['', Validators.required],
-      clientRole: ['', Validators.required],
+  public form: FormGroup;
+  constructor(
+    private fb: FormBuilder,
+    private readonly generalService: GeneralService
+
+  ) {
+    this.form = this.createFromGroup()
+  }
+  private createFromGroup(): FormGroup {
+    return this.fb.group({
+      inspiration: [''],
+      topic: [''],
+      clientRole: [''],
       sendDirect: [false],
     });
   }
@@ -24,15 +33,25 @@ export class GenPostPage implements OnInit {
 
   }
 
-  generate(): void {
-    if (this.form && this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
+  public generate(): void {
+    this.form.markAllAsTouched();
+    const { inspiration, topic, clientRole, sendDirect } = this.form?.value;
+    const dto: MakeTextDto = {
+      inspiration,
+      topic,
+      job: clientRole,
+      direct: sendDirect
     }
-
-    const payload = this.form?.value;
-    // TODO: Implement the generation logic or emit an event.
-    console.log('Generate post with: ', payload);
+    this.generalService.makeText(dto).subscribe(
+      {
+        next: (res) => (
+          console.log('Feita a response -->', res)
+        ),
+        error: (err) => (
+          console.log('Deu erro -->', err)
+        )
+      }
+    )
   }
 
 }
