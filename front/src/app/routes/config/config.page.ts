@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ISharedImports } from '../services/general/dto/shared-imports';
 import { TokenSyncService } from '../api/token-sync-service';
+import { ApiGeneralService } from '../api/api-general.service';
 
 @Component({
   selector: 'app-config',
@@ -10,9 +11,11 @@ import { TokenSyncService } from '../api/token-sync-service';
   imports: ISharedImports
 })
 export class ConfigPage implements OnInit {
+  public statusLinkedin:'Sem Token Key' | 'Não Conectado'| 'Conectado' = 'Sem Token Key'
 
   constructor(
-    private readonly tokenSyncService: TokenSyncService
+    private readonly tokenSyncService: TokenSyncService,
+    private readonly api: ApiGeneralService
   ) { }
 
   ngOnInit() { }
@@ -41,7 +44,12 @@ export class ConfigPage implements OnInit {
     localStorage.setItem('subscription_token', value);
   }
 
-  update() {
+  public update() {
     this.tokenSyncService.syncAll()
+  }
+
+  public onConectLkdn(){
+    if (!this.subscriptionToken) return
+    this.api.hasLinkedin().subscribe()
   }
 }

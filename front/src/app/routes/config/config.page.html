@@ -7,10 +7,9 @@
       <ion-col size="12" size-md="8" offset-md="2">
         <div class="config-wrapper ion-padding">
           <h1>Configuração</h1>
-
           <div class="section">
-            <h5>Integrations</h5>
-            <ion-item lines="none" class="integration-item">
+            <h5>Integrações</h5>
+            <ion-item lines="none" class="integration-item" button (click)="onConectLkdn()">
               <ion-icon
                 name="logo-linkedin"
                 size="large"
@@ -18,7 +17,7 @@
               ></ion-icon>
               <ion-label>
                 <h3>LinkedIn</h3>
-                <p>Connected</p>
+                <p>{{ statusLinkedin }}</p>
               </ion-label>
             </ion-item>
           </div>
