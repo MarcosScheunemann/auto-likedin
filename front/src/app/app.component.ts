@@ -11,7 +11,9 @@ import { ERouters } from '../shared/interfaces/enuns/e-routers';
 })
 export class AppComponent {
   currentTab = 'home';
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.navigate({ detail: { value: this.currentTab } } as any)
+  }
   navigate(event: CustomEvent) {
     const selected: ERouters = event.detail.value;
     this.currentTab = selected;
