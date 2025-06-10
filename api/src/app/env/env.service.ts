@@ -7,7 +7,7 @@ import { EDocType } from 'scheunemann-interfaces';
 
 @Injectable()
 export class EnvService {
-    private apiUrl = 'https://api.com.br'
+    private apiUrl = 'https://sheunemann-projects.uc.r.appspot.com'
     constructor() { }
     public getEnvs() {
         const obj = {
