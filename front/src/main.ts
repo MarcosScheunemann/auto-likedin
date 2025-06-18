@@ -6,12 +6,12 @@ import { AppComponent } from './app/app.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptor/interceptor';
 import { addIcons } from 'ionicons';
-import { logoLinkedin } from 'ionicons/icons';
+import { logoLinkedin, logoWhatsapp } from 'ionicons/icons';
 
 addIcons({
-  'logo-linkedin': logoLinkedin
+  'logo-linkedin': logoLinkedin,
+  'logo-whatsapp': logoWhatsapp,
 });
-
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

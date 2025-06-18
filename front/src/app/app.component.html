@@ -1,6 +1,6 @@
 <ion-app>
-  <ion-header
-    ><ion-toolbar>
+  <ion-header>
+    <ion-toolbar>
       <ion-segment [value]="currentTab" (ionChange)="navigate($event)">
         <ion-segment-button value="home">
           <ion-label>Home</ion-label>
@@ -15,4 +15,8 @@
     </ion-toolbar>
   </ion-header>
   <ion-router-outlet></ion-router-outlet>
+  <ion-footer>
+    <ion-text color="warning">(11) 98200-3157</ion-text>
+    <ion-icon slot="start" name="logo-whatsapp" color="warning"></ion-icon>
+  </ion-footer>
 </ion-app>
