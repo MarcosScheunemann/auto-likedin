@@ -3,6 +3,7 @@ import { map, Observable } from 'rxjs';
 import { ApiGeneralService } from '../../api/api-general.service';
 import { MakeTextDto } from './dto/makeTextDto';
 import { GenerateTokenDto } from './dto/generateTokenDto';
+import { IEnvelope } from 'scheunemann-interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,8 @@ export class GeneralService {
   }
   public makeText(obj: MakeTextDto): Observable<string> {
     return this.api.makeText(obj).pipe(
-      map((res: string) => {
-        return res;
+      map((res: IEnvelope<string>) => {
+        return res.item ?? '';
       }),
     );
   }

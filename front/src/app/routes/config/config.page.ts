@@ -8,17 +8,20 @@ import { ApiGeneralService } from '../api/api-general.service';
   templateUrl: './config.page.html',
   styleUrls: ['./config.page.scss'],
   standalone: true,
-  imports: ISharedImports
+  imports: ISharedImports,
 })
 export class ConfigPage implements OnInit {
-  public statusLinkedin:'Sem Token Key' | 'Não Conectado'| 'Conectado' = 'Sem Token Key'
+  public statusLinkedin: 'Sem Token Key' | 'Não Conectado' | 'Conectado' =
+    'Sem Token Key';
 
   constructor(
     private readonly tokenSyncService: TokenSyncService,
-    private readonly api: ApiGeneralService
-  ) { }
+    private readonly api: ApiGeneralService,
+  ) {
+    this.onConectLkdn()
+  }
 
-  ngOnInit() { }
+  ngOnInit() {}
   public get openAiKey(): string {
     return localStorage.getItem('openai_key') || '';
   }
@@ -41,15 +44,19 @@ export class ConfigPage implements OnInit {
 
   public set subscriptionToken(value: any) {
     if (typeof value !== 'string') return;
+    this.statusLinkedin = 'Não Conectado';
     localStorage.setItem('subscription_token', value);
   }
 
   public update() {
-    this.tokenSyncService.syncAll()
+    this.tokenSyncService.syncAll();
   }
 
-  public onConectLkdn(){
-    if (!this.subscriptionToken) return
-    this.api.hasLinkedin().subscribe()
+  public onConectLkdn() {
+    if (!this.subscriptionToken) return;
+    this.api.hasLinkedin().subscribe({
+      next: (res) =>
+        (this.statusLinkedin = res ? 'Conectado' : 'Não Conectado'),
+    });
   }
 }

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { MakeTextDto } from '../services/general/dto/makeTextDto';
 import { MakePostDto } from '../services/general/dto/makePostDto';
 import { GenerateTokenDto } from '../services/general/dto/generateTokenDto';
+import { IEnvelope } from 'scheunemann-interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +30,10 @@ export class ApiGeneralService extends ApiBaseService {
       .pipe(catchError(ErrorHandler.handlerError));
   }
 
-  public makeText(obj: MakeTextDto): Observable<string> {
+  public makeText(obj: MakeTextDto): Observable<IEnvelope<string>> {
     const apiUrl = `${this.baseUrl}/ia/make-text`;
     return this.http
-      .post<string>(apiUrl, obj)
+      .post<IEnvelope<string>>(apiUrl, obj)
       .pipe(catchError(ErrorHandler.handlerError));
   }
 

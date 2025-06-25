@@ -6,7 +6,7 @@
     "electron"
   ],
   "scripts": {
-    "start:api": "cd api && npm run start:prod",
+    "start:api": "cd api && npm run start:dev",
     "build:api": "cd api && npm run build",
     "start:front": "cd front && ionic serve --port 8100 --no-open",
     "build:front": "cd front && npm run build:ionic",

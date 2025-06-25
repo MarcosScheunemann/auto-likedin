@@ -9,6 +9,7 @@ import { IaService } from './ia.services';
 import { MakeTextDto } from './dto/make-text.dto';
 import { LinkedInService } from '../linkedin/linkedin.service';
 import { TokenValidGuard } from '../../shared/guards/token-valid.guard';
+import { factoryEnvelope, IEnvelope } from 'scheunemann-interfaces';
 
 @UseGuards(HasEnvGuard, TokenValidGuard)
 @Controller('ia')
@@ -19,12 +20,12 @@ export class IaController {
     ) { }
 
     @Post('make-text')
-    async execute(@Body() b?: MakeTextDto): Promise<string> {
+    async execute(@Body() b?: MakeTextDto): Promise<IEnvelope<string>> {
         const res = await this.iaService.makeText(b?.topic, b?.inspiration, b?.job);
         if (!b?.direct) {
-            return res
+            return factoryEnvelope(res)
         }
         await this.linkd.makePost(res)
-        return 'OK'
+        return factoryEnvelope('OK')
     }
 }

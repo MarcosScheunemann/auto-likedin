@@ -53,11 +53,12 @@ export class GenPostPage implements OnInit {
       .pipe(finalize(() => this.loading = false))
       .subscribe(
         {
-          next: (res) => (
+          next: (res:string) => (
             console.log('Feita a response -->', res),
             this.generatedText = res
           ),
           error: (err) => (
+            console.log(err),
             this.generatedText = err?.message || `Ocorreu um erro desconhecido, Tente novamente - \n ${JSON.stringify(err)}`
           )
         }

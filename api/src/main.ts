@@ -36,6 +36,7 @@ async function bootstrap() {
       'x-api-version',
       'x-request-id',
       'x-requested-with',
+      'x-app-version'
     ],
     exposedHeaders: '*',
     methods: '*',

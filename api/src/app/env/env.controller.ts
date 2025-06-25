@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { EnvService, GenerateTokenDTO } from './env.service';
 
-@UseGuards()
 @Controller()
 export class EnvController {
     constructor(
@@ -16,8 +15,8 @@ export class EnvController {
     ) { }
 
     @Get('token/:token')
-    async execute(@Param() p: { token: string }) {
-        await this.env.getCredentials(p.token)
+    async execute(@Param('token') token: string) {
+        await this.env.getCredentials(token)
     }
 
     @Post('token/generate')
