@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar> </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="8" offset-md="2">
+        <div class="config-wrapper ion-padding">
+          <h1>Configuração</h1>
+          <div class="section">
+            <h5>Integrações</h5>
+            <ion-item lines="none" class="integration-item" button (click)="onConectLkdn()">
+              <ion-icon
+                name="logo-linkedin"
+                size="large"
+                slot="start"
+              ></ion-icon>
+              <ion-label>
+                <h3>LinkedIn</h3>
+                <p>{{ statusLinkedin }}</p>
+              </ion-label>
+            </ion-item>
+          </div>
+
+          <div class="section">
+            <h5>API Keys</h5>
+
+            <ion-label position="stacked">OpenAI API Key</ion-label>
+            <ion-input
+              [value]="openAiKey"
+              (ionChange)="openAiKey = $event.detail.value"
+              placeholder="Coloque seu OpenAI API key"
+              class="input-dark"
+            ></ion-input>
+            <a
+              href="https://platform.openai.com/account/api-keys"
+              target="_blank"
+            >
+             Como conseguir seu OpenAI API key?
+            </a>
+
+            <ion-label position="stacked">Gnews API Key</ion-label>
+            <ion-input
+              [value]="gnewsKey"
+              (ionChange)="gnewsKey = $event.detail.value"
+              placeholder="Coloque seu Gnews API key"
+              class="input-dark"
+            ></ion-input>
+            <a href="https://gnews.io/" target="_blank"
+              >Como conseguir seu Gnews API key?</a
+            >
+          </div>
+
+          <div class="section">
+            <h5>Subscription</h5>
+
+            <ion-label position="stacked"
+              >Token Key
+              <h6 class="small-font">Precisa de um Token? vá para "SING UP"</h6>
+            </ion-label>
+            <ion-input
+              [value]="subscriptionToken"
+              (ionChange)="subscriptionToken = $event.detail.value"
+              placeholder="Coloque seu Token Key aqui"
+              class="input-dark"
+            ></ion-input>
+          </div>
+
+          <div class="btn-wrapper">
+            <ion-button expand="block" (click)="update()"
+              >Atualizar</ion-button
+            >
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

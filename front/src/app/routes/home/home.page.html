@@ -1,0 +1,62 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="8" size-md="8">
+        <div class="form-wrapper ion-padding">
+          <h1>Gerar Post LinkedIn</h1>
+          <h6 class="small-font">*Todos os campos são OPCIONAIS</h6>
+
+          <form [formGroup]="form" *ngIf="form" (ngSubmit)="generate()">
+            <ion-label position="stacked">Texto Inspiração</ion-label>
+            <ion-input
+              formControlName="inspiration"
+              class="input-dark"
+              placeholder="Adicione a forma que você gostaria que o post fosse escrito."
+            ></ion-input>
+
+            <ion-label position="stacked">Tópico</ion-label>
+            <ion-input
+              formControlName="topic"
+              class="input-dark"
+              placeholder="Tecnologia"
+            ></ion-input>
+
+            <ion-label position="stacked">Cargo</ion-label>
+            <ion-input
+              formControlName="clientRole"
+              class="input-dark"
+              placeholder="Desenvolvedor de Software, de 5 anos de experiência."
+            ></ion-input>
+
+            <ion-item lines="none" class="checkbox-row">
+              <ion-label>Enviar ao Linkedin Diretamente</ion-label>
+              <ion-checkbox
+                slot="start"
+                formControlName="sendDirect"
+              ></ion-checkbox>
+            </ion-item>
+
+            <div class="generate-btn">
+              @if(loading){
+              <ion-spinner name="dots"></ion-spinner>
+              }
+              <ion-button type="submit" expand="block"> Gerar </ion-button>
+            </div>
+          </form>
+        </div>
+      </ion-col>
+      <ion-col size="4" size-md="4" class="response-col">
+        <ion-card class="output-card">
+          <ion-card-content>
+            <ion-textarea
+              readonly
+              autoGrow="true"
+              class="generated-text"
+              [value]="generatedText"
+            ></ion-textarea>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

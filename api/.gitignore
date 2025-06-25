@@ -61,5 +61,3 @@ tsconfig.build.tsbuildinfo
 tsconfig.tsbuildinfo
 package-lock.json
 eslint.config.mjs
-package-lock.json
-/electron/dist
