@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar> </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" offset-md="3">
+        <div class="signup-wrapper ion-padding">
+          <h1>Sign up</h1>
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <ion-input
+              class="input-dark"
+              type="email"
+              formControlName="email"
+              placeholder="E-mail"
+            ></ion-input>
+
+            <ion-input
+              class="input-dark"
+              formControlName="name"
+              placeholder="Nome"
+            ></ion-input>
+            @if (!subscriptionToken){
+            <ion-button expand="block" type="submit">Sign up</ion-button>
+            } @else {
+            <p class="terms">Você já possui um Token Key! Deseja limpar?</p>
+            <ion-button expand="block" (click)="subscriptionToken = ''"
+              >Limpar</ion-button
+            >
+            }
+          </form>
+
+          <p class="terms">
+            By signing up, you agree to our
+            <a href="#">Terms of Service</a> and
+            <a href="#">Privacy Policy</a>
+          </p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

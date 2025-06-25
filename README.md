@@ -29,20 +29,23 @@ Este projeto tem como objetivo fazer os seguintes passos:
 
 1 - Terá um cron para verificar se tem alguma postagem Agendada, caso não tenha, vai fazer os passos 1 ao 7.  
 2 - Por se tratar de um Open source, todas as variáveis de ambiente serão privadas em um env.  
-3 - Projeto focado em Back-end.
+3 - Projeto focado em Back-end.  
+4 - Será composto por 3 módulos principais, a parte electron, front, e api  
 
 ## Linguagens, Frameworks e Banco de Dados:
 
-NodeJS, NestJS, Typescrypt, Python, Firebase(Google Cloud).
+Back: NodeJS, NestJS, Typescrypt, Python, Firebase(Google Cloud).  
+Front: Ionic 8, AngularJs, HTML, Typescrypt.  
+Electron: electron  
 
 ## Primeiros passos
 
-npm i
-npm start
+npm install  
+npm run dev  
 
 ## Para Develop
 
-npm run start:dev
+Verificar os respectivos package.json para iniciar os scripts
 
 ## Para Publicar
 

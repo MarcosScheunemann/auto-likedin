@@ -1,0 +1,38 @@
+{
+  "name": "auto-likedin",
+  "version": "0.1.0",
+  "description": "Auto-Linkedin API",
+  "author": "Marcos Scheunemann",
+  "private": true,
+  "license": "Apache License 2.0",
+  "scripts": {
+    "clean": "rimraf dist tsconfig.tsbuildinfo tsconfig.build.tsbuildinfo",
+    "build": "npm run clean && nest build",
+    "start": "node dist/main.js",
+    "start:dev": "npm run build && nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "npm run build && node dist/main.js",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" --fix"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  },
+  "engines": {
+    "node": "22"
+  }
+}
